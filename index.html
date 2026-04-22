@@ -3,620 +3,266 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Detona — Dominio Público México</title>
+  <title>Detona — La herencia que no sabías que tenías</title>
+  <meta name="description" content="Base de datos del dominio público mexicano. Miles de obras ya libres de derechos — documentadas con fundamento jurídico.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Courier+Prime:ital,wght@0,400;0,700;1,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Courier+Prime:ital,wght@0,400;0,700;1,400&family=Inter:wght@400;500&display=swap" rel="stylesheet">
   <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    :root{--negro:#1a1a1a;--papel:#F0EBE0;--detona:#D6F000;--gris:#888;--borde:#d0c9ba}
+    html{scroll-behavior:smooth}
+    body{font-family:'Inter',sans-serif;background:var(--papel);color:var(--negro);font-size:16px;line-height:1.6}
+    a{color:inherit;text-decoration:none}
 
-    :root {
-      --negro: #1a1a1a;
-      --papel: #F0EBE0;
-      --detona: #D6F000;
-      --gris: #888;
-      --borde: #d0c9ba;
-    }
+    nav{position:sticky;top:0;z-index:100;background:var(--papel);border-bottom:1px solid var(--borde);padding:.9rem 2rem;display:flex;align-items:center;justify-content:space-between}
+    .nav-logo{font-family:'Bebas Neue',sans-serif;font-size:1.8rem;letter-spacing:.04em;line-height:1}
+    .nav-logo span{background:var(--detona);padding:0 4px}
+    .nav-links{display:flex;gap:1.5rem;align-items:center}
+    .nav-links a{font-family:'Courier Prime',monospace;font-size:.8rem;color:var(--gris);letter-spacing:.06em;text-transform:uppercase;transition:color .15s}
+    .nav-links a:hover{color:var(--negro)}
+    .nav-cta{font-family:'Bebas Neue',sans-serif!important;font-size:1rem!important;letter-spacing:.08em!important;padding:6px 18px;background:var(--negro);color:var(--detona)!important;transition:background .15s!important}
+    .nav-cta:hover{background:#333!important}
 
-    html { background: var(--papel); color: var(--negro); }
+    .hero{min-height:90vh;display:flex;flex-direction:column;justify-content:center;padding:5rem 2rem 4rem;border-bottom:2px solid var(--negro);position:relative;overflow:hidden}
+    .hero-eyebrow{font-family:'Courier Prime',monospace;font-size:.75rem;letter-spacing:.14em;text-transform:uppercase;color:var(--gris);margin-bottom:1.5rem;display:flex;align-items:center;gap:.75rem}
+    .hero-eyebrow::before{content:'';display:inline-block;width:24px;height:2px;background:var(--negro)}
+    .hero-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(4rem,12vw,9rem);line-height:.92;letter-spacing:.01em;max-width:900px;margin-bottom:2rem}
+    .hero-title .hl{background:var(--detona);padding:0 8px;display:inline}
+    .hero-sub{font-size:clamp(1rem,2vw,1.2rem);color:#444;max-width:540px;line-height:1.65;margin-bottom:2.5rem}
+    .hero-actions{display:flex;gap:1rem;align-items:center;flex-wrap:wrap}
+    .btn-primary{font-family:'Bebas Neue',sans-serif;font-size:1.2rem;letter-spacing:.1em;padding:14px 32px;background:var(--negro);color:var(--detona);border:2px solid var(--negro);cursor:pointer;transition:all .15s;display:inline-block}
+    .btn-primary:hover{background:var(--detona);color:var(--negro)}
+    .btn-sec{font-family:'Courier Prime',monospace;font-size:.85rem;color:var(--gris);border-bottom:1px solid var(--borde);padding-bottom:2px;transition:color .15s,border-color .15s}
+    .btn-sec:hover{color:var(--negro);border-color:var(--negro)}
+    .hero-bg{position:absolute;right:-2rem;bottom:-1rem;font-family:'Bebas Neue',sans-serif;font-size:clamp(8rem,20vw,18rem);color:var(--borde);line-height:1;pointer-events:none;user-select:none;opacity:.5}
 
-    body {
-      font-family: 'Inter', sans-serif;
-      min-height: 100vh;
-      background: var(--papel);
-    }
+    .numeros{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));border-bottom:1px solid var(--borde)}
+    .numero-item{padding:2.5rem 2rem;border-right:1px solid var(--borde)}
+    .numero-item:last-child{border-right:none}
+    .numero-val{font-family:'Bebas Neue',sans-serif;font-size:clamp(2.5rem,5vw,4rem);line-height:1;margin-bottom:.4rem;display:block}
+    .numero-val.am{background:var(--detona);padding:0 6px}
+    .numero-label{font-family:'Courier Prime',monospace;font-size:.75rem;text-transform:uppercase;letter-spacing:.1em;color:var(--gris)}
 
-    /* HEADER */
-    header {
-      border-bottom: 2px solid var(--negro);
-      padding: 1.5rem 2rem;
-      display: flex;
-      align-items: baseline;
-      justify-content: space-between;
-      gap: 1rem;
-    }
+    .problema{padding:5rem 2rem;border-bottom:1px solid var(--borde);display:grid;grid-template-columns:1fr 2fr;gap:4rem;align-items:start}
+    .sec-label{font-family:'Courier Prime',monospace;font-size:.7rem;text-transform:uppercase;letter-spacing:.14em;color:var(--gris);margin-bottom:1rem;display:flex;align-items:center;gap:.5rem}
+    .sec-label::before{content:'';display:inline-block;width:16px;height:2px;background:var(--gris)}
+    .sec-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(2rem,4vw,3rem);line-height:1.05;letter-spacing:.02em;position:sticky;top:5rem}
+    .problema-content p{font-size:1.05rem;color:#333;line-height:1.75;margin-bottom:1.25rem}
+    blockquote{border-left:4px solid var(--detona);padding:1rem 1.5rem;background:white;margin:1.5rem 0;font-family:'Courier Prime',monospace;font-size:.95rem;color:#444;line-height:1.65}
 
-    .logo {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: clamp(2.5rem, 6vw, 4rem);
-      letter-spacing: 0.04em;
-      line-height: 1;
-      color: var(--negro);
-      text-decoration: none;
-    }
+    .como{padding:5rem 2rem;border-bottom:1px solid var(--borde);background:var(--negro);color:var(--papel)}
+    .como .sec-label{color:#888}
+    .como .sec-label::before{background:#888}
+    .como-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(2rem,4vw,3rem);letter-spacing:.02em;margin-bottom:3rem;color:var(--papel)}
+    .pasos{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1px;background:#333}
+    .paso{background:var(--negro);padding:2rem}
+    .paso-num{font-family:'Bebas Neue',sans-serif;font-size:3rem;color:var(--detona);line-height:1;margin-bottom:.75rem;display:block}
+    .paso-title{font-family:'Courier Prime',monospace;font-size:.9rem;font-weight:700;color:var(--papel);margin-bottom:.5rem;text-transform:uppercase;letter-spacing:.06em}
+    .paso-body{font-size:.875rem;color:#aaa;line-height:1.6}
 
-    .logo span {
-      background: var(--detona);
-      padding: 0 6px;
-    }
+    .fundamento{padding:5rem 2rem;border-bottom:1px solid var(--borde)}
+    .fund-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1px;background:var(--borde);margin-top:3rem}
+    .fund-item{background:var(--papel);padding:1.75rem}
+    .fund-art{font-family:'Bebas Neue',sans-serif;font-size:2rem;color:var(--negro);line-height:1;margin-bottom:.25rem}
+    .fund-ley{font-family:'Courier Prime',monospace;font-size:.7rem;text-transform:uppercase;letter-spacing:.08em;color:var(--gris);margin-bottom:.75rem}
+    .fund-texto{font-size:.875rem;color:#444;line-height:1.6}
 
-    .tagline {
-      font-family: 'Courier Prime', monospace;
-      font-size: 0.8rem;
-      color: var(--gris);
-      max-width: 280px;
-      text-align: right;
-      line-height: 1.4;
-    }
+    .cta-sec{padding:6rem 2rem;background:var(--detona);border-bottom:2px solid var(--negro);text-align:center}
+    .cta-label{font-family:'Courier Prime',monospace;font-size:.75rem;letter-spacing:.14em;text-transform:uppercase;color:#555;margin-bottom:1rem}
+    .cta-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(3rem,8vw,6rem);line-height:.95;color:var(--negro);margin-bottom:1.5rem;letter-spacing:.02em}
+    .cta-sub{font-size:1rem;color:#444;max-width:480px;margin:0 auto 2rem;line-height:1.6}
+    .btn-negro{font-family:'Bebas Neue',sans-serif;font-size:1.3rem;letter-spacing:.1em;padding:16px 40px;background:var(--negro);color:var(--detona);border:2px solid var(--negro);cursor:pointer;transition:all .15s;display:inline-block}
+    .btn-negro:hover{background:transparent;color:var(--negro)}
 
-    /* HERO */
-    .hero {
-      padding: 3rem 2rem 2rem;
-      border-bottom: 1px solid var(--borde);
-    }
+    footer{background:var(--negro);color:var(--papel);padding:3rem 2rem;display:grid;grid-template-columns:1fr 1fr 1fr;gap:2rem;align-items:start}
+    .f-logo{font-family:'Bebas Neue',sans-serif;font-size:3rem;letter-spacing:.04em;line-height:1}
+    .f-logo span{background:var(--detona);color:var(--negro);padding:0 4px}
+    .f-tagline{font-family:'Courier Prime',monospace;font-size:.75rem;color:#888;margin-top:.5rem;line-height:1.5}
+    .f-col-title{font-family:'Courier Prime',monospace;font-size:.7rem;text-transform:uppercase;letter-spacing:.1em;color:#888;margin-bottom:.75rem}
+    .f-col a,.f-col p{display:block;font-size:.875rem;color:#ccc;margin-bottom:.4rem;transition:color .15s}
+    .f-col a:hover{color:var(--detona)}
+    .f-bottom{background:var(--negro);border-top:1px solid #333;padding:1rem 2rem;display:flex;justify-content:space-between;align-items:center}
+    .f-bottom p{font-family:'Courier Prime',monospace;font-size:.7rem;color:#666}
 
-    .hero-label {
-      font-family: 'Courier Prime', monospace;
-      font-size: 0.75rem;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--gris);
-      margin-bottom: 0.75rem;
-    }
-
-    .hero-title {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: clamp(2rem, 5vw, 3.5rem);
-      line-height: 1.05;
-      letter-spacing: 0.02em;
-      max-width: 700px;
-      margin-bottom: 1.5rem;
-    }
-
-    /* BUSCADOR */
-    .search-wrap {
-      max-width: 680px;
-      position: relative;
-    }
-
-    .search-input {
-      width: 100%;
-      padding: 1rem 1.25rem;
-      font-family: 'Inter', sans-serif;
-      font-size: 1rem;
-      background: white;
-      border: 2px solid var(--negro);
-      color: var(--negro);
-      outline: none;
-      border-radius: 0;
-      transition: border-color 0.15s;
-    }
-
-    .search-input::placeholder { color: #aaa; }
-    .search-input:focus { border-color: var(--detona); box-shadow: 3px 3px 0 var(--negro); }
-
-    .search-btn {
-      position: absolute;
-      right: 0; top: 0; bottom: 0;
-      padding: 0 1.25rem;
-      background: var(--negro);
-      color: var(--detona);
-      border: none;
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 1.1rem;
-      letter-spacing: 0.08em;
-      cursor: pointer;
-      transition: background 0.15s;
-    }
-
-    .search-btn:hover { background: #333; }
-
-    /* FILTROS */
-    .filters {
-      padding: 1rem 2rem;
-      border-bottom: 1px solid var(--borde);
-      display: flex;
-      gap: 0.5rem;
-      flex-wrap: wrap;
-      align-items: center;
-    }
-
-    .filter-label {
-      font-family: 'Courier Prime', monospace;
-      font-size: 0.75rem;
-      color: var(--gris);
-      margin-right: 0.25rem;
-    }
-
-    .filter-btn {
-      font-family: 'Courier Prime', monospace;
-      font-size: 0.75rem;
-      padding: 4px 12px;
-      border: 1px solid var(--borde);
-      background: transparent;
-      color: var(--negro);
-      cursor: pointer;
-      transition: all 0.15s;
-    }
-
-    .filter-btn:hover { border-color: var(--negro); }
-    .filter-btn.active { background: var(--negro); color: var(--detona); border-color: var(--negro); }
-
-    /* STATS */
-    .stats-bar {
-      padding: 0.75rem 2rem;
-      border-bottom: 1px solid var(--borde);
-      display: flex;
-      gap: 2rem;
-      align-items: center;
-    }
-
-    .stat {
-      display: flex;
-      align-items: baseline;
-      gap: 6px;
-    }
-
-    .stat-num {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 1.4rem;
-      color: var(--negro);
-    }
-
-    .stat-label {
-      font-family: 'Courier Prime', monospace;
-      font-size: 0.7rem;
-      color: var(--gris);
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-    }
-
-    /* RESULTADOS */
-    .results-wrap {
-      padding: 1.5rem 2rem;
-    }
-
-    .results-header {
-      font-family: 'Courier Prime', monospace;
-      font-size: 0.8rem;
-      color: var(--gris);
-      margin-bottom: 1rem;
-    }
-
-    .obra-card {
-      border: 1px solid var(--borde);
-      border-left: 4px solid var(--negro);
-      padding: 1rem 1.25rem;
-      margin-bottom: 0.75rem;
-      background: white;
-      display: grid;
-      grid-template-columns: 1fr auto;
-      gap: 0.5rem 1.5rem;
-      align-items: start;
-      transition: border-left-color 0.15s;
-      cursor: pointer;
-    }
-
-    .obra-card:hover { border-left-color: var(--detona); }
-    .obra-card.dominio-publico { border-left-color: var(--detona); }
-
-    .obra-titulo {
-      font-family: 'Courier Prime', monospace;
-      font-size: 1rem;
-      font-weight: 700;
-      color: var(--negro);
-      margin-bottom: 3px;
-    }
-
-    .obra-autor {
-      font-size: 0.85rem;
-      color: #555;
-      margin-bottom: 6px;
-    }
-
-    .obra-meta {
-      display: flex;
-      gap: 1rem;
-      flex-wrap: wrap;
-    }
-
-    .obra-meta-item {
-      font-family: 'Courier Prime', monospace;
-      font-size: 0.7rem;
-      color: var(--gris);
-    }
-
-    .obra-meta-item strong {
-      color: var(--negro);
-      font-weight: 700;
-    }
-
-    .badge-dp {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 0.9rem;
-      letter-spacing: 0.06em;
-      padding: 4px 10px;
-      white-space: nowrap;
-      align-self: start;
-    }
-
-    .badge-dp.libre {
-      background: var(--detona);
-      color: var(--negro);
-    }
-
-    .badge-dp.protegida {
-      background: transparent;
-      color: var(--gris);
-      border: 1px solid var(--borde);
-    }
-
-    .badge-dp.incierta {
-      background: #fff3cd;
-      color: #856404;
-      border: 1px solid #ffc107;
-    }
-
-    /* DETALLE */
-    .obra-detalle {
-      display: none;
-      grid-column: 1 / -1;
-      margin-top: 0.75rem;
-      padding-top: 0.75rem;
-      border-top: 1px solid var(--borde);
-    }
-
-    .obra-card.open .obra-detalle { display: block; }
-
-    .detalle-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 0.75rem;
-      margin-bottom: 0.75rem;
-    }
-
-    .detalle-item {}
-    .detalle-key {
-      font-family: 'Courier Prime', monospace;
-      font-size: 0.7rem;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      color: var(--gris);
-      margin-bottom: 2px;
-    }
-    .detalle-val {
-      font-size: 0.875rem;
-      color: var(--negro);
-      line-height: 1.4;
-    }
-
-    .fundamento {
-      font-family: 'Courier Prime', monospace;
-      font-size: 0.8rem;
-      background: #f7f4ee;
-      border-left: 3px solid var(--negro);
-      padding: 0.75rem 1rem;
-      line-height: 1.6;
-      color: #444;
-      margin-top: 0.5rem;
-    }
-
-    /* EMPTY / LOADING */
-    .empty {
-      text-align: center;
-      padding: 4rem 2rem;
-      color: var(--gris);
-      font-family: 'Courier Prime', monospace;
-    }
-
-    .empty-big {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 5rem;
-      color: var(--borde);
-      display: block;
-      line-height: 1;
-      margin-bottom: 0.5rem;
-    }
-
-    .loading {
-      text-align: center;
-      padding: 3rem;
-      font-family: 'Courier Prime', monospace;
-      font-size: 0.85rem;
-      color: var(--gris);
-    }
-
-    .loading::after {
-      content: '';
-      animation: dots 1.2s infinite;
-    }
-
-    @keyframes dots {
-      0%   { content: '.'; }
-      33%  { content: '..'; }
-      66%  { content: '...'; }
-    }
-
-    /* FOOTER */
-    footer {
-      border-top: 2px solid var(--negro);
-      padding: 1.5rem 2rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-top: 3rem;
-    }
-
-    .footer-logo {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 1.2rem;
-      letter-spacing: 0.06em;
-    }
-
-    .footer-note {
-      font-family: 'Courier Prime', monospace;
-      font-size: 0.7rem;
-      color: var(--gris);
-      text-align: right;
-      max-width: 320px;
-      line-height: 1.5;
-    }
-
-    @media (max-width: 600px) {
-      header, .hero, .filters, .stats-bar, .results-wrap, footer {
-        padding-left: 1rem;
-        padding-right: 1rem;
-      }
-      .detalle-grid { grid-template-columns: 1fr; }
-      .tagline { display: none; }
-      footer { flex-direction: column; gap: 1rem; text-align: center; }
-      .footer-note { text-align: center; }
+    @media(max-width:768px){
+      nav{padding:.75rem 1rem}
+      .nav-links a:not(.nav-cta){display:none}
+      .hero{padding:4rem 1rem 3rem;min-height:80vh}
+      .hero-bg{display:none}
+      .problema{grid-template-columns:1fr;gap:2rem;padding:3rem 1rem}
+      .sec-title{position:static}
+      .como,.fundamento,.cta-sec{padding:3rem 1rem}
+      footer{grid-template-columns:1fr;gap:2rem;padding:2rem 1rem}
+      .f-bottom{flex-direction:column;gap:.5rem;text-align:center;padding:1rem}
+      .numeros{grid-template-columns:1fr 1fr}
+      .numero-item{border-right:none;border-bottom:1px solid var(--borde)}
     }
   </style>
 </head>
 <body>
 
-<header>
-  <a href="/" class="logo">DETO<span>NA</span></a>
-  <p class="tagline">La herencia que no sabías que tenías.<br>Dominio público mexicano documentado.</p>
-</header>
+<nav>
+  <a href="/" class="nav-logo">DETO<span>NA</span></a>
+  <div class="nav-links">
+    <a href="#como-funciona">Cómo funciona</a>
+    <a href="#fundamento">Fundamento</a>
+    <a href="buscar/" class="nav-cta">BUSCAR →</a>
+  </div>
+</nav>
 
 <section class="hero">
-  <p class="hero-label">Base de datos · DOF 1928–1948</p>
-  <h1 class="hero-title">Busca si una obra es libre de derechos en México</h1>
-  <div class="search-wrap">
-    <input
-      type="search"
-      class="search-input"
-      id="search-input"
-      placeholder="Título, autor, compositor…"
-      autocomplete="off"
-      spellcheck="false"
-    >
-    <button class="search-btn" id="search-btn">BUSCAR</button>
+  <p class="hero-eyebrow">Dominio público mexicano · DOF 1928–1948</p>
+  <h1 class="hero-title">
+    La herencia<br>que no sabías<br>que <span class="hl">tenías</span>
+  </h1>
+  <p class="hero-sub">Miles de obras literarias, musicales y artísticas mexicanas ya son libres de derechos. Solo nadie lo había documentado. Hasta ahora.</p>
+  <div class="hero-actions">
+    <a href="buscar/" class="btn-primary">BUSCAR OBRAS →</a>
+    <a href="#el-problema" class="btn-sec">¿Por qué existe Detona?</a>
+  </div>
+  <div class="hero-bg" aria-hidden="true">DP</div>
+</section>
+
+<div class="numeros">
+  <div class="numero-item">
+    <span class="numero-val am" id="n-obras">—</span>
+    <span class="numero-label">obras documentadas</span>
+  </div>
+  <div class="numero-item">
+    <span class="numero-val" id="n-dp">—</span>
+    <span class="numero-label">en dominio público</span>
+  </div>
+  <div class="numero-item">
+    <span class="numero-val">1928</span>
+    <span class="numero-label">primer año del corpus</span>
+  </div>
+  <div class="numero-item">
+    <span class="numero-val">6</span>
+    <span class="numero-label">capas de análisis jurídico</span>
+  </div>
+</div>
+
+<section class="problema" id="el-problema">
+  <div>
+    <p class="sec-label">El problema</p>
+    <h2 class="sec-title">La mina clausurada</h2>
+  </div>
+  <div class="problema-content">
+    <p>El dominio público es el patrimonio cultural que pertenece a todos. Cuando el plazo de protección de una obra vence, cualquier persona puede usarla, adaptarla, publicarla o estudiarla libremente — sin pagar derechos, sin pedir permiso.</p>
+    <p>En México, ese momento llegó hace décadas para miles de obras registradas entre 1928 y 1948. Sus autores fallecieron, sus plazos vencieron bajo las leyes que entonces aplicaban. La ley es clara. Pero nadie lo había documentado.</p>
+    <blockquote>"A ninguna ley se dará efecto retroactivo en perjuicio de persona alguna."<br>— Constitución Política de los Estados Unidos Mexicanos, Art. 14</blockquote>
+    <p>Detona construye la primera base de datos del dominio público mexicano con fundamento jurídico verificable. No opiniones — artículos, plazos, leyes aplicables. La mecha ya estaba ahí. Solo había que encontrarla.</p>
   </div>
 </section>
 
-<div class="filters">
-  <span class="filter-label">Filtrar:</span>
-  <button class="filter-btn active" data-filter="todas">Todas</button>
-  <button class="filter-btn" data-filter="dominio_publico">Solo dominio público</button>
-  <button class="filter-btn" data-filter="musical">Musicales</button>
-  <button class="filter-btn" data-filter="literaria">Literarias</button>
-  <button class="filter-btn" data-filter="dramatica">Dramáticas</button>
-</div>
+<section class="como" id="como-funciona">
+  <p class="sec-label">El método</p>
+  <h2 class="como-title">Cómo funciona Detona</h2>
+  <div class="pasos">
+    <div class="paso">
+      <span class="paso-num">01</span>
+      <p class="paso-title">Corpus del DOF</p>
+      <p class="paso-body">Extraemos registros de obras del Diario Oficial de la Federación 1928–1948: título, autor, fecha, número de registro.</p>
+    </div>
+    <div class="paso">
+      <span class="paso-num">02</span>
+      <p class="paso-title">Motor jurídico</p>
+      <p class="paso-body">Aplicamos 6 capas de análisis: Constitución, principios generales, tratados internacionales y leyes específicas de cada período.</p>
+    </div>
+    <div class="paso">
+      <span class="paso-num">03</span>
+      <p class="paso-title">Determinación</p>
+      <p class="paso-body">Cada obra recibe un estatus verificado: dominio público, protegida o incierta — con el fundamento legal exacto que lo sustenta.</p>
+    </div>
+    <div class="paso">
+      <span class="paso-num">04</span>
+      <p class="paso-title">Acceso libre</p>
+      <p class="paso-body">Todo es público, gratuito y citable. La información está disponible para creadores, investigadores, educadores e instituciones.</p>
+    </div>
+  </div>
+</section>
 
-<div class="stats-bar" id="stats-bar">
-  <div class="stat">
-    <span class="stat-num" id="stat-total">—</span>
-    <span class="stat-label">obras</span>
+<section class="fundamento" id="fundamento">
+  <p class="sec-label">Base legal</p>
+  <h2 style="font-family:'Bebas Neue',sans-serif;font-size:clamp(2rem,4vw,3rem);letter-spacing:.02em;margin-bottom:.5rem">El argumento tiene seis capas</h2>
+  <p style="color:var(--gris);font-size:.9rem;font-family:'Courier Prime',monospace">Cada obra documentada en Detona tiene fundamento en todos los niveles del sistema jurídico mexicano.</p>
+  <div class="fund-grid">
+    <div class="fund-item">
+      <div class="fund-art">Art. 14</div>
+      <div class="fund-ley">CPEUM — Capa 1</div>
+      <p class="fund-texto">Prohibición de retroactividad. El plazo de protección es el vigente cuando se creó la obra — no el que el legislador decida décadas después.</p>
+    </div>
+    <div class="fund-item">
+      <div class="fund-art">Tempus regit actum</div>
+      <div class="fund-ley">Principios generales — Capa 2</div>
+      <p class="fund-texto">El acto jurídico se rige por la ley vigente al momento en que ocurrió. La creación de la obra es el acto. La ley del momento, la aplicable.</p>
+    </div>
+    <div class="fund-item">
+      <div class="fund-art">Art. 18(2)</div>
+      <div class="fund-ley">Convenio de Berna — Capa 3</div>
+      <p class="fund-texto">Las obras ya en dominio público no reviven. México se adhirió a Berna en 1974 — después de que muchas obras del corpus ya estaban libres.</p>
+    </div>
+    <div class="fund-item">
+      <div class="fund-art">Art. 8°</div>
+      <div class="fund-ley">LFDA 1948 — Capa 4</div>
+      <p class="fund-texto">Vida del autor más 20 años post mortem. Para autores fallecidos antes de 1975, sus obras son dominio público desde hace décadas.</p>
+    </div>
+    <div class="fund-item">
+      <div class="fund-art">OG 17</div>
+      <div class="fund-ley">Comité DESC — Capa 3</div>
+      <p class="fund-texto">Los derechos patrimoniales de autor no son derechos humanos — son privilegios comerciales temporales que ceden ante el acceso a la cultura.</p>
+    </div>
+    <div class="fund-item">
+      <div class="fund-art">Art. 4°</div>
+      <div class="fund-ley">CPEUM — Capa 1</div>
+      <p class="fund-texto">Toda persona tiene derecho al acceso a la cultura. El dominio público no es opcional — es una obligación constitucional del Estado mexicano.</p>
+    </div>
   </div>
-  <div class="stat">
-    <span class="stat-num" id="stat-dp">—</span>
-    <span class="stat-label">dominio público</span>
-  </div>
-  <div class="stat">
-    <span class="stat-num" id="stat-anios">1928–1948</span>
-    <span class="stat-label">período DOF</span>
-  </div>
-</div>
+</section>
 
-<div class="results-wrap">
-  <div class="results-header" id="results-header"></div>
-  <div id="results"></div>
-</div>
+<section class="cta-sec">
+  <p class="cta-label">Base de datos abierta</p>
+  <h2 class="cta-title">¿Es libre esta obra?<br>Búscalo ahora.</h2>
+  <p class="cta-sub">Título, autor, compositor. En segundos sabes si una obra es dominio público y por qué — con el fundamento legal que lo sustenta.</p>
+  <a href="buscar/" class="btn-negro">BUSCAR EN DETONA →</a>
+</section>
 
 <footer>
-  <span class="footer-logo">DETONA</span>
-  <p class="footer-note">
-    Información documental con fines de acceso a la cultura.<br>
-    Fundamento: CPEUM Art. 4 · LFDA · Principio de no retroactividad.<br>
-    detona.org · 2025
-  </p>
+  <div>
+    <div class="f-logo">DETO<span>NA</span></div>
+    <p class="f-tagline">La herencia que no sabías que tenías.<br>Dominio público mexicano documentado.</p>
+  </div>
+  <div class="f-col">
+    <p class="f-col-title">El proyecto</p>
+    <a href="#el-problema">El problema</a>
+    <a href="#como-funciona">Cómo funciona</a>
+    <a href="#fundamento">Fundamento jurídico</a>
+    <a href="buscar/">Buscador</a>
+  </div>
+  <div class="f-col">
+    <p class="f-col-title">Contacto</p>
+    <a href="mailto:hola@detona.org">hola@detona.org</a>
+    <p style="margin-top:1rem;font-size:.75rem;color:#666;font-family:'Courier Prime',monospace">
+      Información con fines de acceso a la cultura.<br>
+      CPEUM Art. 4 · 14 · 28 · LFDA · Berna Art. 18(2)
+    </p>
+  </div>
 </footer>
+<div class="f-bottom">
+  <p>detona.org · 2025</p>
+  <p>Dominio público mexicano · DOF 1928–1948</p>
+</div>
 
 <script>
-  const SUPABASE_URL = 'https://sghllptnkoyvwmhwvivn.supabase.co'
-  const SUPABASE_KEY = 'sb_publishable_r6gAx2K5jE9bHW0-sptu7A_l5B4yXnj'
-
-  const headers = {
-    'apikey': SUPABASE_KEY,
-    'Authorization': `Bearer ${SUPABASE_KEY}`,
-    'Content-Type': 'application/json'
-  }
-
-  let activeFilter = 'todas'
-  let currentQuery = ''
-  let statsLoaded = false
-
-  async function query(params) {
-    const url = new URL(`${SUPABASE_URL}/rest/v1/obras_completas`)
-    Object.entries(params).forEach(([k, v]) => url.searchParams.set(k, v))
-    const res = await fetch(url, { headers: { ...headers, 'Prefer': 'count=exact' } })
-    const count = res.headers.get('content-range')?.split('/')[1] || '?'
-    const data = await res.json()
-    return { data, count }
-  }
-
-  async function loadStats() {
-    try {
-      const r = await fetch(`${SUPABASE_URL}/rest/v1/obras_completas?select=id,es_dominio_publico&limit=1000`, { headers })
-      const data = await r.json()
-      if (!Array.isArray(data)) return
-      document.getElementById('stat-total').textContent = data.length.toLocaleString('es-MX')
-      const dp = data.filter(o => o.es_dominio_publico === true).length
-      document.getElementById('stat-dp').textContent = dp.toLocaleString('es-MX')
-      statsLoaded = true
-    } catch(e) { console.error(e) }
-  }
-
-  async function search(texto, filtro) {
-    const resultsEl = document.getElementById('results')
-    const headerEl = document.getElementById('results-header')
-    resultsEl.innerHTML = '<div class="loading">Buscando</div>'
-
-    try {
-      let params = { select: '*', order: 'anio_registro.asc', limit: 100 }
-
-      if (texto && texto.length > 1) {
-        params['or'] = `titulo_norm.ilike.*${texto.toLowerCase()}*,autores_texto.ilike.*${texto.toLowerCase()}*`
-      }
-
-      if (filtro === 'dominio_publico') {
-        params['es_dominio_publico'] = 'eq.true'
-      } else if (['musical','literaria','dramatica'].includes(filtro)) {
-        params['tipo'] = `ilike.*${filtro}*`
-      }
-
-      const { data, count } = await query(params)
-
-      if (!Array.isArray(data) || data.length === 0) {
-        headerEl.textContent = ''
-        resultsEl.innerHTML = `
-          <div class="empty">
-            <span class="empty-big">0</span>
-            No encontramos obras con esos criterios.
-          </div>`
-        return
-      }
-
-      headerEl.textContent = `${data.length} resultado${data.length !== 1 ? 's' : ''}`
-      resultsEl.innerHTML = data.map(o => renderObra(o)).join('')
-
-      // Click para expandir
-      resultsEl.querySelectorAll('.obra-card').forEach(card => {
-        card.addEventListener('click', () => card.classList.toggle('open'))
-      })
-
-    } catch(e) {
-      resultsEl.innerHTML = `<div class="empty">Error al conectar con la base de datos.</div>`
-      console.error(e)
-    }
-  }
-
-  function renderObra(o) {
-    const autores = Array.isArray(o.autores) ? o.autores.join(', ') : (o.autores_texto || '—')
-    const dp = o.es_dominio_publico
-
-    let badgeClass, badgeText
-    if (dp === true) {
-      badgeClass = 'libre'; badgeText = 'LIBRE'
-    } else if (dp === false) {
-      badgeClass = 'protegida'; badgeText = 'PROTEGIDA'
-    } else {
-      badgeClass = 'incierta'; badgeText = 'INCIERTA'
-    }
-
-    const certeza = o.nivel_certeza ? `· Certeza ${o.nivel_certeza}` : ''
-
-    return `
-    <div class="obra-card ${dp === true ? 'dominio-publico' : ''}">
-      <div>
-        <div class="obra-titulo">${esc(o.titulo || '—')}</div>
-        <div class="obra-autor">${esc(autores)}</div>
-        <div class="obra-meta">
-          ${o.anio_registro ? `<span class="obra-meta-item">Registro <strong>${o.anio_registro}</strong></span>` : ''}
-          ${o.tipo ? `<span class="obra-meta-item">Tipo <strong>${esc(o.tipo)}</strong></span>` : ''}
-          ${o.num_registro ? `<span class="obra-meta-item">Núm. <strong>${esc(o.num_registro)}</strong></span>` : ''}
-          ${o.ley_aplicable ? `<span class="obra-meta-item">Ley <strong>${esc(o.ley_aplicable)}</strong></span>` : ''}
-          ${o.anio_vencimiento ? `<span class="obra-meta-item">Vence <strong>${o.anio_vencimiento}</strong></span>` : ''}
-        </div>
-      </div>
-      <div class="badge-dp ${badgeClass}">${badgeText}</div>
-
-      <div class="obra-detalle">
-        <div class="detalle-grid">
-          <div class="detalle-item">
-            <div class="detalle-key">Fuente DOF</div>
-            <div class="detalle-val">${esc(o.fuente_dof || '—')}</div>
-          </div>
-          <div class="detalle-item">
-            <div class="detalle-key">Ley aplicable</div>
-            <div class="detalle-val">${esc(o.ley_aplicable || '—')}</div>
-          </div>
-          <div class="detalle-item">
-            <div class="detalle-key">Año vencimiento</div>
-            <div class="detalle-val">${o.anio_vencimiento || '—'} ${certeza}</div>
-          </div>
-          <div class="detalle-item">
-            <div class="detalle-key">Estatus</div>
-            <div class="detalle-val">${dp === true ? 'Dominio público' : dp === false ? 'Protegida' : 'Incierta'}</div>
-          </div>
-        </div>
-        ${o.fundamento_legal ? `
-        <div class="detalle-key">Fundamento legal</div>
-        <div class="fundamento">${esc(o.fundamento_legal)}</div>
-        ` : ''}
-        ${o.notas_juridicas ? `
-        <div class="fundamento" style="margin-top: 0.5rem; border-left-color: var(--detona);">${esc(o.notas_juridicas)}</div>
-        ` : ''}
-      </div>
-    </div>`
-  }
-
-  function esc(str) {
-    if (!str) return ''
-    return String(str)
-      .replace(/&/g,'&amp;')
-      .replace(/</g,'&lt;')
-      .replace(/>/g,'&gt;')
-      .replace(/"/g,'&quot;')
-  }
-
-  // Eventos
-  document.getElementById('search-btn').addEventListener('click', () => {
-    currentQuery = document.getElementById('search-input').value.trim()
-    search(currentQuery, activeFilter)
-  })
-
-  document.getElementById('search-input').addEventListener('keydown', e => {
-    if (e.key === 'Enter') {
-      currentQuery = e.target.value.trim()
-      search(currentQuery, activeFilter)
-    }
-  })
-
-  document.querySelectorAll('.filter-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'))
-      btn.classList.add('active')
-      activeFilter = btn.dataset.filter
-      search(currentQuery, activeFilter)
-    })
-  })
-
-  // Carga inicial
-  loadStats()
-  search('', 'todas')
+  const SB_URL = 'https://sghllptnkoyvwmhwvivn.supabase.co'
+  const SB_KEY = 'sb_publishable_r6gAx2K5jE9bHW0-sptu7A_l5B4yXnj'
+  fetch(`${SB_URL}/rest/v1/obras_completas?select=id,es_dominio_publico&limit=5000`,
+    {headers:{'apikey':SB_KEY,'Authorization':`Bearer ${SB_KEY}`}})
+    .then(r=>r.json()).then(data=>{
+      if(!Array.isArray(data)) return
+      document.getElementById('n-obras').textContent = data.length.toLocaleString('es-MX')
+      document.getElementById('n-dp').textContent = data.filter(o=>o.es_dominio_publico===true).length.toLocaleString('es-MX')
+    }).catch(console.error)
 </script>
 </body>
 </html>
