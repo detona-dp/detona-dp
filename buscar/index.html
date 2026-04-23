@@ -459,7 +459,7 @@
   let statsLoaded = false
 
   async function query(params) {
-    const url = new URL(`${SUPABASE_URL}/rest/v1/obras_completas`)
+    const url = new URL(`${SUPABASE_URL}/rest/v1/corpus_busqueda`)
     Object.entries(params).forEach(([k, v]) => url.searchParams.set(k, v))
     const res = await fetch(url, { headers: { ...headers, 'Prefer': 'count=exact' } })
     const count = res.headers.get('content-range')?.split('/')[1] || '?'
@@ -469,7 +469,7 @@
 
   async function loadStats() {
     try {
-      const r = await fetch(`${SUPABASE_URL}/rest/v1/obras_completas?select=id,es_dominio_publico&limit=1000`, { headers })
+      const r = await fetch(`${SUPABASE_URL}/rest/v1/corpus_busqueda?select=id,es_dominio_publico&limit=5000`, { headers })
       const data = await r.json()
       if (!Array.isArray(data)) return
       document.getElementById('stat-total').textContent = data.length.toLocaleString('es-MX')
@@ -488,13 +488,17 @@
       let params = { select: '*', order: 'anio_registro.asc', limit: 100 }
 
       if (texto && texto.length > 1) {
-        params['or'] = `titulo_norm.ilike.*${texto.toLowerCase()}*,autores_texto.ilike.*${texto.toLowerCase()}*`
+        params['or'] = `titulo.ilike.*${texto.toLowerCase()}*,autores_texto.ilike.*${texto.toLowerCase()}*`
       }
 
       if (filtro === 'dominio_publico') {
         params['es_dominio_publico'] = 'eq.true'
-      } else if (['musical','literaria','dramatica'].includes(filtro)) {
-        params['tipo'] = `ilike.*${filtro}*`
+      } else if (filtro === 'literaria') {
+        params['tipo'] = `ilike.*Literaria*`
+      } else if (filtro === 'musical') {
+        params['tipo'] = `ilike.*Artística*`
+      } else if (filtro === 'dramatica') {
+        params['tipo'] = `ilike.*Art*`
       }
 
       const { data, count } = await query(params)
@@ -524,7 +528,7 @@
   }
 
   function renderObra(o) {
-    const autores = Array.isArray(o.autores) ? o.autores.join(', ') : (o.autores_texto || '—')
+    const autores = o.autores_texto || '—'
     const dp = o.es_dominio_publico
 
     let badgeClass, badgeText
@@ -533,22 +537,19 @@
     } else if (dp === false) {
       badgeClass = 'protegida'; badgeText = 'PROTEGIDA'
     } else {
-      badgeClass = 'incierta'; badgeText = 'INCIERTA'
+      badgeClass = 'incierta'; badgeText = 'POR DETERMINAR'
     }
 
-    const certeza = o.nivel_certeza ? `· Certeza ${o.nivel_certeza}` : ''
-
     return `
-    <div class="obra-card ${dp === true ? 'dominio-publico' : ''}">
+    <div class="obra-card">
       <div>
         <div class="obra-titulo">${esc(o.titulo || '—')}</div>
         <div class="obra-autor">${esc(autores)}</div>
         <div class="obra-meta">
-          ${o.anio_registro ? `<span class="obra-meta-item">Registro <strong>${o.anio_registro}</strong></span>` : ''}
-          ${o.tipo ? `<span class="obra-meta-item">Tipo <strong>${esc(o.tipo)}</strong></span>` : ''}
-          ${o.num_registro ? `<span class="obra-meta-item">Núm. <strong>${esc(o.num_registro)}</strong></span>` : ''}
-          ${o.ley_aplicable ? `<span class="obra-meta-item">Ley <strong>${esc(o.ley_aplicable)}</strong></span>` : ''}
-          ${o.anio_vencimiento ? `<span class="obra-meta-item">Vence <strong>${o.anio_vencimiento}</strong></span>` : ''}
+          ${o.anio_registro ? `<span class="obra-meta-item">Año <strong>${o.anio_registro}</strong></span>` : ''}
+          ${o.mes ? `<span class="obra-meta-item">Mes <strong>${esc(o.mes)}</strong></span>` : ''}
+          ${o.tipo ? `<span class="obra-meta-item">Clase <strong>${esc(o.tipo)}</strong></span>` : ''}
+          ${o.num_registro ? `<span class="obra-meta-item">Núm. registro <strong>${esc(o.num_registro)}</strong></span>` : ''}
         </div>
       </div>
       <div class="badge-dp ${badgeClass}">${badgeText}</div>
@@ -556,33 +557,36 @@
       <div class="obra-detalle">
         <div class="detalle-grid">
           <div class="detalle-item">
-            <div class="detalle-key">Fuente DOF</div>
-            <div class="detalle-val">${esc(o.fuente_dof || '—')}</div>
+            <div class="detalle-key">Interesado</div>
+            <div class="detalle-val">${esc(autores)}</div>
           </div>
           <div class="detalle-item">
-            <div class="detalle-key">Ley aplicable</div>
-            <div class="detalle-val">${esc(o.ley_aplicable || '—')}</div>
+            <div class="detalle-key">Clase de propiedad</div>
+            <div class="detalle-val">${esc(o.tipo || '—')}</div>
           </div>
           <div class="detalle-item">
-            <div class="detalle-key">Año vencimiento</div>
-            <div class="detalle-val">${o.anio_vencimiento || '—'} ${certeza}</div>
+            <div class="detalle-key">Año de registro</div>
+            <div class="detalle-val">${o.anio_registro || '—'} — ${esc(o.mes || '')}</div>
           </div>
           <div class="detalle-item">
-            <div class="detalle-key">Estatus</div>
-            <div class="detalle-val">${dp === true ? 'Dominio público' : dp === false ? 'Protegida' : 'Incierta'}</div>
+            <div class="detalle-key">Número de registro</div>
+            <div class="detalle-val">${esc(o.num_registro || '—')}</div>
           </div>
         </div>
-        ${o.fundamento_legal ? `
-        <div class="detalle-key">Fundamento legal</div>
-        <div class="fundamento">${esc(o.fundamento_legal)}</div>
+        ${o.fuente_dof ? `
+        <div class="detalle-key" style="margin-top:0.75rem">Fuente y cita oficial</div>
+        <div class="fundamento">${esc(o.fuente_dof)}</div>
         ` : ''}
-        ${o.notas_juridicas ? `
-        <div class="fundamento" style="margin-top: 0.5rem; border-left-color: var(--detona);">${esc(o.notas_juridicas)}</div>
+        ${o.fundamento_legal ? `
+        <div class="fundamento" style="margin-top:0.5rem;border-left-color:var(--detona)">${esc(o.fundamento_legal)}</div>
         ` : ''}
       </div>
     </div>`
   }
-
+          </div>
+          <div class="detalle-item">
+            <div class="detalle-key">Ley aplicable</div>
+            <div class="detalle-val">${esc(o.ley_aplicable || '—')}</div>
   function esc(str) {
     if (!str) return ''
     return String(str)
