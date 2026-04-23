@@ -485,15 +485,13 @@
     resultsEl.innerHTML = '<div class="loading">Buscando</div>'
 
     try {
-      let params = { select: '*', order: 'anio_registro.asc', limit: 100 }
+      let params = { select: '*', order: 'anio_registro.asc,num_registro.asc', limit: 100 }
 
       if (texto && texto.length > 1) {
-        params['or'] = `titulo.ilike.*${texto.toLowerCase()}*,autores_texto.ilike.*${texto.toLowerCase()}*`
+        params['titulo'] = `ilike.*${texto.toLowerCase()}*`
       }
 
-      if (filtro === 'dominio_publico') {
-        params['es_dominio_publico'] = 'eq.true'
-      } else if (filtro === 'literaria') {
+      if (filtro === 'literaria') {
         params['tipo'] = `ilike.*Literaria*`
       } else if (filtro === 'musical') {
         params['tipo'] = `ilike.*Artística*`
