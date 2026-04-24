@@ -469,12 +469,14 @@
 
   async function loadStats() {
     try {
-      const r = await fetch(`${SUPABASE_URL}/rest/v1/corpus_busqueda?select=id,es_dominio_publico&limit=5000`, { headers })
+      const r = await fetch(`${SUPABASE_URL}/rest/v1/corpus_busqueda?select=id&limit=1`, {
+        headers: { ...headers, 'Prefer': 'count=exact' }
+      })
       const data = await r.json()
+      const total = r.headers.get('content-range')?.split('/')[1] || '0'
       if (!Array.isArray(data)) return
-      document.getElementById('stat-total').textContent = data.length.toLocaleString('es-MX')
-      const dp = data.filter(o => o.es_dominio_publico === true).length
-      document.getElementById('stat-dp').textContent = dp.toLocaleString('es-MX')
+      document.getElementById('stat-total').textContent = parseInt(total).toLocaleString('es-MX')
+      document.getElementById('stat-dp').textContent = '—'
       statsLoaded = true
     } catch(e) { console.error(e) }
   }
@@ -485,7 +487,7 @@
     resultsEl.innerHTML = '<div class="loading">Buscando</div>'
 
     try {
-      let params = { select: '*', order: 'anio_registro.asc,num_registro.asc', limit: 100 }
+      let params = { select: '*', order: 'anio_registro.asc,num_registro.asc', limit: 200 }
 
       if (texto && texto.length > 1) {
         params['titulo'] = `ilike.*${texto.toLowerCase()}*`
